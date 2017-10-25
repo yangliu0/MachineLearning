@@ -26,15 +26,15 @@ def gradAscent(dataMatIn, classLabels):
     m, n = shape(dataMatrix)
     alpha = 0.001
     maxCycles = 500
-    theta = ones((n, 1))
+    weights = ones((n, 1))
     for k in range(maxCycles):
-        h = sigmoid(dataMatrix * theta)
+        h = sigmoid(dataMatrix * weights)
         error = (labelMat - h)
         theta = theta + alpha * dataMatrix.transpose() * error
-    return theta
+    return weights
 
 # 描绘最佳拟合直线
-def plotBestFit(theta):
+def plotBestFit(weights):
     dataMat, labelMat = loadDataSet()
     dataArr = array(dataMat)
     n = shape(dataArr)[0]
@@ -54,8 +54,21 @@ def plotBestFit(theta):
     ax.scatter(xcord1, ycord1, s=30, c='red', marker='s')
     ax.scatter(xcord2, ycord2, s=30, c='green')
     x = arange(-3.0, 3.0, 0.1)
-    y = (-theta[0]-theta[1]*x)/theta[2]
+    y = (-weights[0]-weights[1]*x)/weights[2]
     ax.plot(x, y)
     plt.xlabel('X1')
     plt.ylabel('X2')
     plt.show()
+
+
+# 随机梯度上升
+def stocGradAscent(dataMatIn, classLabels):
+    dataMatrix = array(dataMatIn)
+    m, n = shape(dataMatrix)
+    alpha = 0.01
+    weights = ones(n)
+    for i in range(m):
+        h = sigmoid(sum(dataMatrix[i]*weights))
+        error = classLabels[i] - h
+        weights = weights + alpha * error * dataMatrix[i]
+    return weights
