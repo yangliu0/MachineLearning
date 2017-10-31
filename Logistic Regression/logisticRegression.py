@@ -72,3 +72,67 @@ def stocGradAscent(dataMatIn, classLabels):
         error = classLabels[i] - h
         weights = weights + alpha * error * dataMatrix[i]
     return weights
+
+
+# 改进的随机梯度上升算法
+def stocGradAscent1(dataMatIn, classLabels, numIter = 150):
+    dataMatrix = array(dataMatIn)
+    m, n = shape(dataMatrix)
+    weights = ones(n)
+    for j in range(numIter):
+        dataIndex = range(m)
+        for i in range(m):
+            alpha = 4 / (1.0 + j + i) + 0.01
+            randIndex = int(random.uniform(0, len(dataIndex)))
+            h = sigmoid(sum(dataMatrix[randIndex] * weights))
+            error = classLabels[randIndex] - h
+            weights = weights + alpha * error * dataMatrix[randIndex]
+            del(list(dataIndex)[randIndex])
+    return weights
+
+
+# 预测问题
+def classifyVector(inX, weights):
+    matX = array(inX)
+    prob = sigmoid(sum(matX * weights))
+    if prob > 0.5:
+        return 1.0
+    else:
+        return 0.0
+
+
+def colicTest():
+    frTrain = open('horseColicTraining.txt')
+    frTest = open('horseColicTest.txt')
+    trainingSet = []
+    trainingLabels = []
+    for line in frTrain.readlines():
+        currLine = line.strip().split('\t')
+        lineArr =[]
+        for i in range(21):
+            lineArr.append(float(currLine[i]))
+        trainingSet.append(lineArr)
+        trainingLabels.append(float(currLine[21]))
+    trainWeights = stocGradAscent1(trainingSet, trainingLabels, 1000)
+    errorCount = 0
+    numTestVec = 0.0
+    for line in frTest.readlines():
+        numTestVec += 1.0
+        currLine = line.strip().split('\t')
+        lineArr =[]
+        for i in range(21):
+            lineArr.append(float(currLine[i]))
+        if int(classifyVector(lineArr, trainWeights)) != int(currLine[21]):
+            errorCount += 1
+    errorRate = (float(errorCount) / numTestVec)
+    print ("the error rate of this test is: %f" % errorRate)
+    return errorRate
+
+
+# 测试函数
+def multiTest():
+    numTests = 10
+    errorSum=0.0
+    for k in range(numTests):
+        errorSum += colicTest()
+    print ("after %d iterations the average error rate is: %f" % (numTests, errorSum/float(numTests)))
