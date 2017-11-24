@@ -7,8 +7,6 @@ def loadData():
     data = np.loadtxt('testSet.txt')
     dataMat = data[:, 0:2]
     labelMat = data[:, 2]
-
-
     return dataMat, labelMat
 
 
@@ -40,6 +38,8 @@ def trainPerceptron(dataMat, labelMat, eta):
 
     return weight, bias
 
+
+# 可视化展示分类结果
 def plotResult(dataMat, labelMat, weight, bias):
     fig = plt.figure()
     axes = fig.add_subplot(111)
