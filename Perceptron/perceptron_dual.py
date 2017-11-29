@@ -1,10 +1,10 @@
-#!/usr/bin/env python
+# !/usr/bin/env python
 # -*- coding:utf-8 -*-
 
 """
-author: Yang Liu
+author:Yang Liu
 
-The general form of the perceptron
+The dual form of perceptron
 """
 
 import numpy as np
@@ -16,43 +16,32 @@ def loadData():
     data = np.loadtxt('testSet.txt')
     dataMat = data[:, 0:2]
     labelMat = data[:, 2]
+    labelMat = labelMat.reshape((labelMat.shape[0], 1))
     return dataMat, labelMat
 
 
-def sign(val):
-    if val >= 0:
-        return 1
-    else:
-        return -1
-
-
 """
-    训练模型
-    eta: learning rate
+训练模型
+b:bias
+eta:learning rate
 """
-def trainPerceptron(dataMat, labelMat, eta):
-    m, n = dataMat.shape
-    weight = np.zeros(n)
-    bias = 0
-
+def trainModel(dataMat, labelMat, alpha, b, eta):
     flag = True
     while flag:
         for i in range(m):
-            if np.any(labelMat[i] * (np.dot(weight, dataMat[i]) + bias) <= 0):
-                weight = weight + eta * labelMat[i] * dataMat[i].T
-                bias = bias + eta * labelMat[i]
-                print("weight, bias: ", end="")
-                print(weight, end="  ")
-                print(bias)
+            if (labelMat[i, 0] * (np.sum((alpha * labelMat * np.dot(dataMat, dataMat[i].T).reshape((m, 1)))) + b)) <= 0:
+                alpha[i] = alpha[i] + eta
+                b = b + eta * labelMat[i]
                 flag = True
                 break
             else:
                 flag = False
+    alpha_new = alpha * labelMat
+    w = np.dot(dataMat.T, alpha_new)
+    return w, b
 
-    return weight, bias
 
-
-# 可视化展示分类结果
+# 可视化结果
 def plotResult(dataMat, labelMat, weight, bias):
     fig = plt.figure()
     axes = fig.add_subplot(111)
@@ -84,5 +73,12 @@ def plotResult(dataMat, labelMat, weight, bias):
 
 if __name__ == "__main__":
     dataMat, labelMat = loadData()
-    weight, bias = trainPerceptron(dataMat, labelMat, 1)
-    plotResult(dataMat, labelMat, weight, bias)
+    m, n = dataMat.shape
+    alpha = np.zeros((m, 1))
+    b = 0
+    eta = 1
+    w, b = trainModel(dataMat, labelMat, alpha, b, eta)
+    print("w: ", end="")
+    print(w)
+    print("b: %d" % b)
+    plotResult(dataMat, labelMat, w, b)
