@@ -36,8 +36,7 @@ def trainModel(dataMat, labelMat, alpha, b, eta):
                 break
             else:
                 flag = False
-    alpha_new = alpha * labelMat
-    w = np.dot(dataMat.T, alpha_new)
+    w = np.dot(dataMat.T, alpha * labelMat)
     return w, b
 
 
