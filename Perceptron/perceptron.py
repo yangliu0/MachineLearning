@@ -4,7 +4,7 @@
 """
 author: Yang Liu
 
-The general form of the perceptron
+The primitive form of the perceptron
 """
 
 import numpy as np
