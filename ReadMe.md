@@ -9,3 +9,8 @@
 ### [KNN](https://github.com/yangliu0/MachineLearning/tree/master/KNN)
 
 KNN(K-邻近)算法，使用KNN实现数字识别
+
+### [LogisticRegression](https://github.com/yangliu0/MachineLearning/tree/master/LogisticRegression)
+
+logistic regression算法，使用LR进行了二分类
+
