@@ -14,3 +14,6 @@ KNN(K-邻近)算法，使用KNN实现数字识别
 
 logistic regression算法，使用LR进行了二分类
 
+### [DecisionTree](https://github.com/yangliu0/MachineLearning/tree/master/DecisionTree)
+决策树算法，实现了ID3
+
