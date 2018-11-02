@@ -2,6 +2,7 @@
 
 import numpy as np
 
+
 # ID3 Decision Tree
 
 class DecisionTree:
@@ -30,7 +31,6 @@ class DecisionTree:
             entropy -= prop * np.log2(prop)
         return entropy
 
-
     def _splitDataset(self, X, y, index, value):
         """
         :param X:
@@ -47,7 +47,6 @@ class DecisionTree:
             if featVec[i] == value:
                 ret.append(i)
         return X[ret, :], y[ret]
-
 
     def _chooseBestFeatureToSplit(self, X, y):
         """
@@ -76,7 +75,6 @@ class DecisionTree:
                 bestFeatureIndex = i
         return bestFeatureIndex
 
-
     def _majorityCnt(self, labelList):
         """
         :param labelList:
@@ -90,7 +88,6 @@ class DecisionTree:
             labelCount[vote] += 1
         sortedLabelCount = sorted(labelCount.items(), key=lambda x: x[1], reverse=True)
         return sortedLabelCount[0][0]
-
 
     def _createTree(self, X, y, featureIndex):
         """
@@ -125,7 +122,6 @@ class DecisionTree:
             myTree[bestFeatStr][value] = self._createTree(sub_X, sub_y, featureIndex)
         return myTree
 
-
     def fit(self, X, y):
         # 类型检查
         if isinstance(X, np.ndarray) and isinstance(y, np.ndarray):
@@ -137,9 +133,8 @@ class DecisionTree:
             except:
                 raise TypeError("numpy.ndarray requied for X, y")
 
-        featureIndex = tuple(['x'+str(i) for i in range(X.shape[1])])
+        featureIndex = tuple(['x' + str(i) for i in range(X.shape[1])])
         self._tree = self._createTree(X, y, featureIndex)
-
 
     def predict(self, X):
         if self._tree == 'None':
@@ -178,7 +173,6 @@ class DecisionTree:
             for i in range(X.shape[0]):
                 result.append(_classify(self._tree, X[i]))
             return np.array(result)
-
 
     def show(self):
         if self._tree == None:

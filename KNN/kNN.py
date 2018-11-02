@@ -20,7 +20,7 @@ def img2vector(filename):
     for i in range(32):
         lineStr = fr.readline()
         for j in range(32):
-            retVect[0, 32*i+j] = int(lineStr[j])
+            retVect[0, 32 * i + j] = int(lineStr[j])
     return retVect
 
 
