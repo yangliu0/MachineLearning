@@ -26,11 +26,11 @@ def sign(val):
         return -1
 
 
-"""
-    训练模型
-    eta: learning rate
-"""
 def trainPerceptron(dataMat, labelMat, eta):
+    """
+        训练模型
+        eta: learning rate
+    """
     m, n = dataMat.shape
     weight = np.zeros(n)
     bias = 0

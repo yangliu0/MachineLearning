@@ -20,12 +20,12 @@ def loadData():
     return dataMat, labelMat
 
 
-"""
-训练模型
-b:bias
-eta:learning rate
-"""
 def trainModel(dataMat, labelMat, alpha, b, eta):
+    """
+    训练模型
+    b:bias
+    eta:learning rate
+    """
     flag = True
     while flag:
         for i in range(m):
